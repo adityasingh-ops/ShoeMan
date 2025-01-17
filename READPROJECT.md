@@ -1,0 +1,1 @@
+## Before Every Commit it will show in Deatil what i had done in all commit
