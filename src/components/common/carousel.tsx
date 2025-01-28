@@ -16,7 +16,7 @@ const ImageCarousel = ({renderItem, Carouselwidth}:CarouselProps) => {
                 autoPlay={true}
                 data={[...new Array(6).keys()]}
                 scrollAnimationDuration={1000}
-                onSnapToItem={(index) => console.log('current index:', index)}
+                // onSnapToItem={(index) => console.log('current index:', index)}
                 renderItem={({ index }) => (
                     renderItem(index)
                 )}

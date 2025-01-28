@@ -135,4 +135,23 @@ export const PRODUCTS: Product[] = [
     sizes: [5, 6, 7, 8, 9, 10],
     maxQuantity: 10,
   },
+  {
+    id: 8,
+    title: 'Under Armour HOVR',
+    slug: 'under-armour-hovr',
+    heroImage: require('../assets/images/shoes1.png'),
+    imagesUrl: [
+      require('../assets/images/shoes1.png'),
+      require('../assets/images/shoes1.png'),
+    ],
+    price: 99.99,
+    category: {
+      imageUrl: require('../assets/images/shoes1.png'),
+      name: 'Under Armour',
+      slug: 'under-armour',
+    },
+    gender: 'Unisex',
+    sizes: [5, 6, 7, 8, 9, 10],
+    maxQuantity: 10,
+  },
 ];
