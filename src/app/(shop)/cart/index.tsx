@@ -1,18 +1,19 @@
 import { FlatList, SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import { CARTPRODUCTS } from '@/assets/cart'
 import React from 'react'
 import tw from 'twrnc'
+import CartCard from '@/src/components/cart/card'
 
 export default function index() {
   return (
     <SafeAreaView style={tw`bg-[#F8F9FA] h-full`}>
       <Text style={tw`text-2xl mb-6 text-center font-semibold`}>Your ❤️ Cart</Text>
       <FlatList
-        data={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
+        data={CARTPRODUCTS}
         renderItem={({ item }) => (
-          <View style={tw`bg-white p-4 mb-4 mx-4 rounded-lg shadow-lg`}>
 
-            <Text>Cart Item {item}</Text>
-          </View>
+          <CartCard product={item} />
+
         )}
         keyExtractor={item => item.toString()}
       // ListHeaderComponent={header}

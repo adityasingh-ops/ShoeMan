@@ -1,16 +1,16 @@
 import { Image, Text, TouchableOpacity, View } from 'react-native';
 import React, { useState } from 'react';
 import tw from 'twrnc';
-import { Category } from '@/assets/types/category';
+import { category } from '@/assets/types/category';
 
 interface CategoriesProps {
-  categories: Category[];
+  categories: category[];
 }
 
 export default function Categories({ categories }: CategoriesProps) {
-  const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<category | null>(null);
 
-  const handleClickedCategory = (category: Category) => {
+  const handleClickedCategory = (category: category) => {
     setSelectedCategory(selectedCategory?.id === category.id ? null : category);
   };
 

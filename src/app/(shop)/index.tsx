@@ -1,5 +1,5 @@
-import { Alert, Animated, FlatList, SafeAreaView, StyleSheet, Text, View } from 'react-native'
-import React, { useRef } from 'react'
+import { Alert, Animated, FlatList, RefreshControl, SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import React, { useRef, useState } from 'react'
 import { PRODUCTS } from '@/assets/products'
 import tw from 'twrnc'
 import ProductListItem from '@/src/components/product-item'
@@ -10,6 +10,15 @@ import Categories from '@/src/components/common/categoris'
 import { CATEGORIES } from '@/assets/categories'
 
 const Home = () => {
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    // Simulate a network request or data fetch
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 1500);
+  };
   const scrollY = useRef(new Animated.Value(0)).current
 
   const layoutHeight = scrollY.interpolate({
@@ -34,7 +43,7 @@ const Home = () => {
             onCartPress={function (): void {
               Alert.alert('Cart Pressed')
             }} onMenuPress={function (): void {
-           
+
             }} />
         </Animated.View>
         <Animated.View style={[{ transform: [{ translateY }], }]}>
@@ -64,6 +73,16 @@ const Home = () => {
             { useNativeDriver: true } // Enable native animations for better performance
           )}
           scrollEventThrottle={16} // Optimize scroll performance?
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+              progressBackgroundColor={'#F8F9FA'}
+              colors={['#5B9EE1']}
+              tintColor={'#5B9EE1'}
+ 
+            />
+          }
         >
         </Animated.FlatList>
 

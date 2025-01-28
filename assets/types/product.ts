@@ -1,5 +1,5 @@
 import { ImageSourcePropType } from 'react-native';
-import { Category } from './category';
+import { category } from './category';
 
 export type Product = {
   id: number;
@@ -10,6 +10,6 @@ export type Product = {
   gender:string;
   sizes: number[];
   heroImage: ImageSourcePropType;
-  category: Omit<Category, 'products'>;
+  category: Omit<category, 'products'>;
   maxQuantity: number;
 };

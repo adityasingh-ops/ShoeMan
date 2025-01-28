@@ -62,11 +62,12 @@ export default function AppBar({ title, location, onCartPress, onMenuPress }: Ap
 
           {/* Expandable Menu */}
           <Animated.View style={[
-            tw`absolute top-14 left-0 blur rounded-xl shadow-xl  w-48`,
+            tw`absolute top-14 left-0 bg-white rounded-xl shadow-xl  w-48`,
             {
+              zIndex: 100,
               transform: [{ scaleY: scale }],
               opacity: scale,
-              
+              transformOrigin: 'top'
             }
           ]}>
             {menuItems.map((item) => (
