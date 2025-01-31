@@ -26,6 +26,7 @@ const Home = () => {
     outputRange: [1, 0],
     extrapolate: 'clamp',
   })
+
   const translateY = scrollY.interpolate({
     inputRange: [0, 100],
     outputRange: [0, -50],
@@ -33,7 +34,7 @@ const Home = () => {
   })
 
   return (
-    <SafeAreaView style={tw`bg-[#F8F9FA] h-full`}>
+    <SafeAreaView style={tw`bg-[#F8F9FA] flex-1`}>
       <View style={tw`mx-4 flex`}>
         <Animated.View style={[tw`mb-6 z-50`, {
           transform: [{ scaleY: layoutHeight }],
@@ -41,9 +42,7 @@ const Home = () => {
         }]}>
           <AppBar title={'Store Location'} location={'Bengaluru'}
             onCartPress={function (): void {
-              Alert.alert('Cart Pressed')
             }} onMenuPress={function (): void {
-
             }} />
         </Animated.View>
         <Animated.View style={[{ transform: [{ translateY }], }]}>
@@ -52,7 +51,7 @@ const Home = () => {
           </View>
         </Animated.View>
         <Animated.FlatList
-          style={[tw`mb-20`, { transform: [{ translateY }], }]}
+          style={[tw`pb-60`, { transform: [{ translateY }], }]}
           data={PRODUCTS}
           renderItem={({ item }) => (
             <ProductListItem product={item} />
@@ -67,6 +66,12 @@ const Home = () => {
               <Text style={tw`text-xl font-bold mb-2`}>Products</Text>
             </View>
           }
+          ListFooterComponent={() => (
+            <View style={tw`pb-20`}>
+              <Text style={tw`text-center text-gray-500  text-md`}>Made with ❤️ @Aditya Singh</Text>
+            </View>
+          )}
+          ListFooterComponentStyle={tw`mb-30 mt-10`}
           showsVerticalScrollIndicator={false}
           onScroll={Animated.event(
             [{ nativeEvent: { contentOffset: { y: scrollY } } }],
@@ -80,7 +85,7 @@ const Home = () => {
               progressBackgroundColor={'#F8F9FA'}
               colors={['#5B9EE1']}
               tintColor={'#5B9EE1'}
- 
+
             />
           }
         >

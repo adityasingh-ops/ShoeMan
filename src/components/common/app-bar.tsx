@@ -1,13 +1,19 @@
-import { Text, View, TouchableOpacity, Animated } from 'react-native'
+import { Text, View, TouchableOpacity, Animated, FlatList } from 'react-native'
 import React, { useRef, useState } from 'react'
 import { EvilIcons, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'
 import tw from 'twrnc'
 import { AppBarProps } from '@/assets/types/appBar'
+import CartModal from '../cart/modal'
+import { cartProduct } from '@/assets/types/cart'
+import { CARTPRODUCTS } from '@/assets/cart'
 
-export default function AppBar({ title, location, onCartPress, onMenuPress }: AppBarProps) {
+export default function AppBar({ title, location, onCartPress, onMenuPress }: AppBarProps,) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isCartOpen, setIsCartOpen] = useState(false);
   const rotateAnimation = useRef(new Animated.Value(0)).current;
   const menuScaleY = useRef(new Animated.Value(0)).current;
+  const cartScaleY = useRef(new Animated.Value(0)).current;
+  const cartRotateAnimation = useRef(new Animated.Value(0)).current;
 
   const menuItems = [
     { id: 1, title: 'Profile', icon: 'person-outline' },
@@ -18,7 +24,7 @@ export default function AppBar({ title, location, onCartPress, onMenuPress }: Ap
 
   const onPressMenu = () => {
     const toValue = isMenuOpen ? 0 : 1;
-    
+
     Animated.parallel([
       Animated.spring(rotateAnimation, {
         toValue,
@@ -36,9 +42,38 @@ export default function AppBar({ title, location, onCartPress, onMenuPress }: Ap
 
     setIsMenuOpen(!isMenuOpen);
     if (onMenuPress) onMenuPress();
+
+
+  };
+  const onPressCart = () => {
+
+    const toValue = isCartOpen ? 0 : 1;
+
+    Animated.parallel([
+      Animated.spring(cartRotateAnimation, {
+        toValue,
+        useNativeDriver: true,
+        tension: 20,
+        friction: 5
+      }),
+      Animated.spring(cartScaleY, {
+        toValue,
+        useNativeDriver: true,
+        tension: 20,
+        friction: 7
+      })
+    ]).start();
+
+
+    setIsCartOpen(!isCartOpen);
+    if (onCartPress) onCartPress();
   };
 
   const rotate = rotateAnimation.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['0deg', '360deg']
+  });
+  const rotateCart = cartRotateAnimation.interpolate({
     inputRange: [0, 1],
     outputRange: ['0deg', '360deg']
   });
@@ -46,6 +81,11 @@ export default function AppBar({ title, location, onCartPress, onMenuPress }: Ap
   const scale = menuScaleY.interpolate({
     inputRange: [0, 1],
     outputRange: [0, 1]
+  });
+  const cartScale = cartScaleY.interpolate({
+    inputRange: [0, 1],
+    outputRange
+      : [0, 1]
   });
 
   return (
@@ -56,7 +96,7 @@ export default function AppBar({ title, location, onCartPress, onMenuPress }: Ap
             onPress={onPressMenu}
             style={tw`bg-white p-2 items-center rounded-full shadow-sm`}>
             <Animated.View style={{ transform: [{ rotate }] }}>
-              {isMenuOpen ? (<MaterialCommunityIcons name='chevron-down' size={24} />):(<MaterialCommunityIcons name='dots-grid' size={24} />)}
+              {isMenuOpen ? (<MaterialCommunityIcons name='chevron-down' size={24} />) : (<MaterialCommunityIcons name='dots-grid' size={24} />)}
             </Animated.View>
           </TouchableOpacity>
 
@@ -94,15 +134,48 @@ export default function AppBar({ title, location, onCartPress, onMenuPress }: Ap
           </View>
         </View>
 
-        <TouchableOpacity
-          onPress={onCartPress}
-          style={tw`bg-white p-2 items-center rounded-full shadow-sm`}>
-          <Ionicons
-            name="bag-handle-outline" 
-            size={24} 
-            color="black" 
-          />
-        </TouchableOpacity>
+        <View style={tw`relative`}>
+          <TouchableOpacity
+            onPress={onPressCart}
+            style={tw`bg-white p-2 items-center rounded-full shadow-sm`}>
+            <Animated.View style={{ transform: [{ rotate: rotateCart }] }}>
+              {isCartOpen ? (<MaterialCommunityIcons name='chevron-down' size={24} />) : (<Ionicons name='bag-handle-outline' size={24} />)}
+            </Animated.View>
+            <View
+              style={tw`absolute top-0 right-[-2] bg-blue-500 h-5 w-5 rounded-full items-center justify-center`}>
+              <Text style={tw`text-white text-xs`}>2</Text>
+            </View>
+          </TouchableOpacity>
+
+          {/* Expandable Cart */}
+
+          <Animated.View style={[
+            tw`absolute top-14 right-0 bg-white rounded-xl shadow-xl h-100  w-80`,
+            {
+              zIndex: 100,
+              transform: [{ scaleY: cartScale }],
+              opacity: cartScale,
+              transformOrigin: 'top'
+            }
+          ]}>
+
+            <FlatList
+              showsVerticalScrollIndicator={false}
+              data={CARTPRODUCTS}
+              renderItem={({ item }) => (
+                <CartModal cartProduct={item} />
+              )}
+              keyExtractor={(item) => item.id.toString()}
+            />
+            <View style={tw`flex-col`}>
+              <View style={tw`flex-row items-center py-2 pl-6 pr-2 rounded-b-xl bg-[#5B9EE1]`}>
+                {/* <Ionicons name='close' size={24} style={tw`mr-3 text-[#5B9EE1]`} onPress={onPressCart} /> */}
+                <Text style={tw`text-base font-semibold text-sm text-white`}>View Your Cart</Text>
+                <Ionicons name='chevron-forward' size={24} style={tw`ml-auto text-white`} />
+              </View>
+            </View>
+          </Animated.View>
+        </View>
       </View>
     </View>
   )

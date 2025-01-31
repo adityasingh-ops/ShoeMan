@@ -6,10 +6,10 @@ import { Icon } from "@expo/vector-icons/build/createIconSet";
 
 export default function TabLayout() {
     return (
-        <View style={tw`flex-1 bg-[rgba(255, 255, 255, 0.5)]`}>
+        <View style={tw`flex-1`}>
             <ImageBackground
                 source={require("@/assets/images/bottom.png")}
-                style={tw`absolute bottom-0 w-full h-30`}
+                style={tw`absolute bottom-0 w-full h-30 bg-transparent z-20`}
                 resizeMode="cover"
             />
             <Tabs
@@ -23,9 +23,9 @@ export default function TabLayout() {
                     },
                     tabBarShowLabel: false,
                     tabBarStyle: [
-                        tw`border-t-0 h-[120px] pt-[30px]`,
+                        tw`absolute bottom-0 w-full border-t-0 z-30  `,
                         {
-                            backgroundColor: 'rgba(255, 255, 255, 0.5)',
+                            backgroundColor: 'transparent',
                             shadowOpacity: 0,
                             elevation: 0,
                         },
@@ -58,12 +58,12 @@ export default function TabLayout() {
                                     alignItems: 'center',
                                     justifyContent: 'center',
                                     borderRadius: 32,
-                                    marginTop: -24,
+                                    marginTop: -48,
                                 },
                                 {
                                     shadowColor: '#5B9EE1',
-                                    shadowOffset: { width: 0, height: 5 },
-                                    shadowOpacity: 0.7,
+                                    shadowOffset: { width: 0, height: 8 },
+                                    shadowOpacity: 0.9,
                                     shadowRadius: 12,
                                     elevation: 6,
                                 },
